@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 
 class DataCapture extends StatefulWidget{
-  final states;
-  DataCapture({this.states});
+  final states, location;
+  DataCapture({this.states, this.location});
   @override
   _DataCaptureState createState() => _DataCaptureState();
 }
@@ -106,7 +106,7 @@ class _DataCaptureState extends State<DataCapture> {
                           value: _state,
                           items: widget.states.map<DropdownMenuItem<String>>((value) =>
                          new DropdownMenuItem<String>(
-                          value: value.id.toString(),
+                          value: value.name,
                           child: new Text(value.name),
                         )
                       ).toList(),
@@ -132,7 +132,7 @@ class _DataCaptureState extends State<DataCapture> {
                         FocusScope.of(context).requestFocus(new FocusNode());
                         if (form.validate() && _gender != null && _state != null) {
                         setState(() {_inProgress = true;});
-                        await homebloc.upload(_fname, _lname, _city, _street, _gender, _state,  context).then((success) {
+                        await homebloc.upload(_fname, _lname, _city, _street, _gender, _state, widget.location.latitude, widget.location.longitude, context).then((success) {
                           setState(() {
                             _inProgress = false;
                           });
