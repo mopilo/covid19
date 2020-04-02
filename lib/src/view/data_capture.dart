@@ -1,4 +1,5 @@
 import 'package:covid_19/src/components/input.dart';
+import 'package:covid_19/src/components/snack.dart';
 import 'package:covid_19/src/core/bloc/home_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
@@ -131,6 +132,9 @@ class _DataCaptureState extends State<DataCapture> {
                         form.save();
                         FocusScope.of(context).requestFocus(new FocusNode());
                         if (form.validate() && _gender != null && _state != null) {
+                        if(widget.location != null){
+                          
+                        
                         setState(() {_inProgress = true;});
                         await homebloc.upload(_fname, _lname, _city, _street, _gender, _state, widget.location.latitude, widget.location.longitude, context).then((success) {
                           setState(() {
@@ -141,6 +145,10 @@ class _DataCaptureState extends State<DataCapture> {
                             Navigator.pop(context);
                           }
                         });}
+                        else{
+                          showMessage('Please turn on your location service', context);
+                        }
+                        }
                       },
                       color: Colors.blue,
                       child: Text('Submit', style: TextStyle(color: Colors.white))
