@@ -15,12 +15,12 @@ class Callbacks {
         var responseJson = json.decode(response.body);
         return responseJson;
       case 400:
-        throw BadRequestException(json.decode(response.body)['data']['error']);
+        throw BadRequestException(json.decode(response.body)['message']);
       case 422:
-        throw UnProcessed(json.decode(response.body)['data']['error']);
+        throw UnProcessed(json.decode(response.body)['message']);
       case 401:
       case 403:
-        throw UnauthorisedException(json.decode(response.body)['data']['error']);
+        throw UnauthorisedException(json.decode(response.body)['message']);
       case 500:
       default:
         throw FetchDataException(

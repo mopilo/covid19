@@ -8,5 +8,5 @@ class Repository {
   Future getPatients() => patientApiProvider.getPatients();
 
   final uploadApiProvider = HomeApiProvider();
-  Future upload(fname, lname, city, street, gender, state) => uploadApiProvider.upload(fname, lname, city, street, gender, state);
+  Future upload(fname, lname, city, street, gender, state, lat, lng,) => uploadApiProvider.upload(fname, lname, city, street, gender, state, lat, lng);
 }

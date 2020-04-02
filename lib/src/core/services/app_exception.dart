@@ -5,7 +5,7 @@ class AppException implements Exception {
   AppException([this._message, this._prefix]);
 
   String toString() {
-    return "$_prefix$_message";
+    return "$_message";
   }
 }
 
