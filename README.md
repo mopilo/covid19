@@ -2,9 +2,6 @@
 
 A new Flutter project.
 
-## Getting Started
-
-
 ## How to Use 
 
 **Step 1:**
