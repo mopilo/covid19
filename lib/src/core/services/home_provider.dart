@@ -41,7 +41,7 @@ class HomeApiProvider{
     return PatientModel.fromJson(responseData);
   }
 
-  Future upload(fname, lname, city, street, gender, state) async {
+  Future upload(fname, lname, city, street, gender, state, lat, lng) async {
     Map body = {
       "city": city,
       "firstname": fname,
@@ -49,44 +49,19 @@ class HomeApiProvider{
       "lastname": lname,
       "state": state,
       "street": street,
-      "lat": '',
-      "lng": ''
+      "lat": lat,
+      "lng": lng
     };
     print(body);
 
-    // await Env().getAuthHeader().then((Map header) async {
-    //   try {
-    //     final response = await client.post('$url/patients', headers: header, body: json.encode(body));
-    //       responseJson = await callbacks.returnResponse(response);
-    //   } on SocketException {
-    //       throw FetchDataException('No Internet connection');
-    //   }
-    // });
-    // return responseJson;
+    await Env().getAuthHeader().then((Map header) async {
+      try {
+        final response = await client.post('$url/patients', headers: header, body: json.encode(body));
+          responseData = await callbacks.returnResponse(response);
+      } on SocketException {
+          throw FetchDataException('No Internet connection');
+      }
+    });
+    return responseData;
   }
-
-
-  // Future postReview(r, t, id, route) async {
-  //   Map body = {
-  //     "rating" : {
-  //       "star": r,
-  //       "comment": t,
-  //     }
-  //   };
-  //       // print(body);
-
-  //   await Env().getHeader().then((Map header) async {
-  //     try {
-  //       final response = await client.post(
-  //        route == 'spa'? url + '/listings/'+id.toString() + "/reviews" : 
-  //        url + '/specialists/' + id.toString()+ '/reviews', 
-  //         headers: header, body: json.encode(body)
-  //       );
-  //         responseJson = await callbacks.returnResponse(response);
-  //     } on SocketException {
-  //         throw FetchDataException('No Internet connection');
-  //     }
-  //   });
-  //   return responseJson;
-  // }
 }
