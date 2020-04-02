@@ -54,11 +54,11 @@ class HomeBloc {
   }
   
 
-    upload(fname, lname, city, street, gender, state, cxt) async {
+    upload(fname, lname, city, street, gender, state, lat, lng, cxt) async {
     _loader.sink.add(true);
     var success;
     try{
-      success = await _repository.upload(fname, lname, city, street, gender, state);
+      success = await _repository.upload(fname, lname, city, street, gender, state, lat, lng);
       _loader.sink.add(false);
     }catch(e){
       _loader.sink.add(false);
