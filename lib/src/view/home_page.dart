@@ -3,6 +3,7 @@ import 'package:covid_19/src/core/model/state.dart';
 import 'package:covid_19/src/view/data_capture.dart';
 import 'package:covid_19/src/view/patient_list.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -10,15 +11,32 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  Position _currentPosition;
 
   @override
-    void initState() {
-      super.initState();
-      homebloc.getStates();
-    }
+  void initState() {
+    super.initState();
+    homebloc.getStates();
+    getCurrentLocation();
+  }
+
+  getCurrentLocation() {
+    final Geolocator geolocator = Geolocator()..forceAndroidLocationManager;
+
+    geolocator
+        .getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
+        .then((Position position) {
+      setState(() {
+        _currentPosition = position;
+      });
+    }).catchError((e) {
+      print(e);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
+    print(_currentPosition);
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -43,7 +61,7 @@ class _HomePageState extends State<HomePage> {
               children: <Widget>[
                 GestureDetector(
                     onTap: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context)=> DataCapture(states: snapshot.data.result)));
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=> DataCapture(states: snapshot.data.result, location: _currentPosition)));
                     },
                     child: homeData('Upload Data', Icons.person_add)
                   ),
